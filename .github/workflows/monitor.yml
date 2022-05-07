@@ -1,0 +1,36 @@
+name: run monitor
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: "0 16 * * *"
+  watch:
+    types: [ started ]  #测试用 点击star就会运行
+
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+
+      - name: Build
+        run: go build -o app
+      - name: Test
+        run: go test -v ./...
+      - name: Run
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PA: ${{ secrets.PA }}
+        run: ./app  -u=$EMAIL -p=$PA
+
+

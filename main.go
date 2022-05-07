@@ -3,7 +3,6 @@ package main
 import (
 	doudou "doudouCheckin/src"
 	"flag"
-	"fmt"
 	"strings"
 )
 
@@ -19,10 +18,10 @@ func main() {
 	}
 	cookies, err := doudou.Login(*email, *pwd)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 	err = doudou.CheckIn(cookies)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 }

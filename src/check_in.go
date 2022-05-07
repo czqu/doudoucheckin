@@ -88,6 +88,9 @@ func Login(email string, pwd string) ([]*http.Cookie, error) {
 		}
 	}(resp.Body)
 	res, _ := UnescapeUnicode(body)
+	if strings.Contains(res, "错误") {
+		return nil, errors.New(res)
+	}
 	fmt.Println(res)
 
 	return resp.Cookies(), nil
